@@ -17,7 +17,7 @@ graph LR
     
     style A fill:#6a329f
     style F fill:#073763
-    style G fill:#d8f1d8
+    style G fill:#660000
 ```
 
 ## Architecture
