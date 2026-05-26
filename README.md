@@ -15,7 +15,7 @@ graph LR
     E -->|> 50%| F((EXPANSION))
     E -->|< 50%| G((CONSOLIDATION))
     
-    style A fill:#d9ebf9,stroke:#1f77b4,stroke-width:2px
+    style A fill:#d9ebf9,stroke:#000000,stroke-width:2px
     style F fill:#fbdada,stroke:#d62728,stroke-width:2px
     style G fill:#d8f1d8,stroke:#2ca02c,stroke-width:2px
 ```
