@@ -15,9 +15,9 @@ graph LR
     E -->|> 50%| F((EXPANSION))
     E -->|< 50%| G((CONSOLIDATION))
     
-    style A fill:#6a329f,stroke:#1f77b4,stroke-width:2px
-    style F fill:#073763,stroke:#d62728,stroke-width:2px
-    style G fill:#d8f1d8,stroke:#2ca02c,stroke-width:2px
+    style A fill:#6a329f
+    style F fill:#073763
+    style G fill:#d8f1d8
 ```
 
 ## Architecture
