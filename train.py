@@ -2,37 +2,41 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from data_engine import generate_xauusd_data
+from config import config
 from model import VolatilityClassifier
 
-def train_model():
-    X, y = generate_xauusd_data(1000)
+def train_model(train_data, val_data):
+    X_train, y_train = train_data
+    X_val, y_val = val_data
+    
     model = VolatilityClassifier()
+    criterion = nn.BCELoss()
+    optimizer = optim.Adam(model.parameters(), lr=config.training.learning_rate)
     
-    # The Math components
-    criterion = nn.BCELoss() # Binary Cross-Entropy
-    optimizer = optim.Adam(model.parameters(), lr=0.01) # Adam Optimizer
+    epochs = config.training.epochs
     
-    epochs = 100
     for epoch in range(epochs):
-        optimizer.zero_grad() # Clear old gradients
+        model.train()
+        optimizer.zero_grad()
         
-        # 1. Forward Pass (Make a prediction)
-        predictions = model(X)
-        
-        # 2. Calculate Loss (Measure the mistake)
-        loss = criterion(predictions, y)
-        
-        # 3. Backward Pass (Calculus/Derivatives)
+        # Calculate training predictions and update gradients
+        predictions = model(X_train)
+        loss = criterion(predictions, y_train)
         loss.backward()
-        
-        # 4. Take a step (Update weights)
         optimizer.step()
         
-        if (epoch+1) % 20 == 0:
-            print(f"Epoch {epoch+1}/{epochs} | Loss: {loss.item():.4f}")
+        # Evaluate model performance on validation data
+        if (epoch + 1) % 10 == 0 or epoch == 0:
+            model.eval()
+            with torch.no_grad():
+                val_preds = model(X_val)
+                val_loss = criterion(val_preds, y_val)
+                
+                train_acc = ((predictions >= 0.5).float() == y_train).float().mean().item() * 100
+                val_acc = ((val_preds >= 0.5).float() == y_val).float().mean().item() * 100
+                
+            print(f"Epoch {epoch+1:03d}/{epochs} | "
+                  f"Train Loss: {loss.item():.4f} (Acc: {train_acc:.1f}%) | "
+                  f"Val Loss: {val_loss.item():.4f} (Acc: {val_acc:.1f}%)")
             
     return model
-
-if __name__ == "__main__":
-    trained_model = train_model()
