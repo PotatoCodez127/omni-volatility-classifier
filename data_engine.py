@@ -24,14 +24,14 @@ def generate_financial_time_series(samples: int = 1200, seed: int = 42):
         # Simulate 5 consecutive OHLCV candles
         for _ in range(5):
             returns = np.random.normal(0.0, 2.5)
-            o = current_price + np.random.normal(0.0, 0.5)
-            c = o + returns
-            h = max(o, c) + abs(np.random.normal(0.5, 0.5))
-            l = min(o, c) - abs(np.random.normal(0.5, 0.5))
-            v = np.random.uniform(500, 5000)
+            open_px = current_price + np.random.normal(0.0, 0.5)
+            close_px = open_px + returns
+            high_px = max(open_px, close_px) + abs(np.random.normal(0.5, 0.5))
+            low_px = min(open_px, close_px) - abs(np.random.normal(0.5, 0.5))
+            volume = np.random.uniform(500, 5000)
 
-            prices.extend([o, h, l, c, v])
-            current_price = c
+            prices.extend([open_px, high_px, low_px, close_px, volume])
+            current_price = close_px
 
         X[s] = prices
 

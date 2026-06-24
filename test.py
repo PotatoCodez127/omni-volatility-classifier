@@ -34,7 +34,8 @@ def run_pipeline():
         real_state = "EXPANSION" if y_test[i].item() == 1.0 else "CONSOLIDATION"
         decision = "EXPANSION (Execute)" if prob > 50.0 else "CONSOLIDATION (Block)"
         print(
-            f"Scenario {i+1} | Volatility Prob: {prob:.2f}% -> System Action: {decision} | Target: {real_state}"
+            f"Scenario {i+1} | Volatility Prob: {prob:.2f}% -> System Action:"
+            f" {decision} | Target: {real_state}"
         )
 
 
